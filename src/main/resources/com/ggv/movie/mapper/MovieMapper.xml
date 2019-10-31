@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ggv.movie.mapper.MovieMapper">
+	<select id="getList" resultType="movie">
+		SELECT MOVIE_PK, M_TITLE, M_TITLE_ENG, MAINPOST_IMG, PLOT, 
+				RUNNINGTIME, GENRE, WATCHGRADE,	TO_CHAR(OPENDATE,'YYYY/MM/DD') OPENDATE, DIRECTOR, 
+				SCORE_AVG, RESERVATION_RATE
+		FROM MOVIE
+		WHERE OPENDATE 
+		<if test="movieChart=='movieChart'">
+			&lt; 
+		</if>
+		<if test="movieChart=='upComing'">
+			&gt; 
+		</if>
+		SYSDATE
+		ORDER BY MOVIE_PK
+	</select>
+
+	<select id="getMovieInfo" resultType="movie">
+		SELECT MOVIE_PK, M_TITLE, M_TITLE_ENG, MAINPOST_IMG, PLOT, 
+				RUNNINGTIME, GENRE, WATCHGRADE,	TO_CHAR(OPENDATE,'YYYY/MM/DD') OPENDATE, DIRECTOR, 
+				SCORE_AVG, RESERVATION_RATE, TRAILER
+		FROM MOVIE
+		WHERE MOVIE_PK = #{movie_pk}
+	</select>
+	
+	<select id="getActorList" resultType="actor">
+		SELECT * FROM ACTOR WHERE MOVIE_PK = #{movie_pk}
+	</select>
+		
+	<select id="getStillcutList" resultType="stillcut">
+		SELECT * FROM STILLCUT WHERE MOVIE_PK = #{movie_pk}
+	</select>
+	
+	<insert id="addMovie">
+		INSERT INTO MOVIE 
+		VALUES(
+			#{movie_pk},
+			#{m_title},
+			#{m_title_eng},
+			#{mainpost_img},
+			#{plot},
+			#{runningtime},
+			#{genre},
+			#{watchgrade},
+			#{opendate},
+			#{director},
+			#{score_avg},
+			#{reservation_rate},
+			#{trailer}
+		)
+	</insert>
+	
+	<update id="modifyMovie">
+		UPDATE MOVIE SET
+			M_TITLE = #{m_title},
+			M_TITLE_ENG = #{m_title_eng},
+			MAINPOST_IMG = #{mainpost_img},
+			PLOT = #{plot},
+			RUNNINGTIME = #{runningtime},
+			GENRE = #{genre},
+			WATCHGRADE = #{watchgrade},
+			OPENDATE = #{opendate},
+			DIRECTOR = #{director},
+			SCORE_AVG = #{score_avg},
+			RESERVATION_RATE = #{reservation_rate},
+			TRAILER = #{trailer}
+		WHERE MOVIE_PK = #{movie_pk}
+	</update>
+	
+	<select id="getCountMovie" resultType="int">
+		SELECT COUNT(*) FROM MOVIE WHERE MOVIE_PK = #{movie_pk}
+	</select>
+	
+	<select id="isUpcomming" resultType="boolean">
+		SELECT CASE WHEN OPENDATE > SYSDATE THEN 1 ELSE 0 END OPENDATE FROM MOVIE WHERE MOVIE_PK = #{movie_pk}
+	</select>
+</mapper>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ggv.member.mapper.MemberMapper">
+	<select id="getMemberList" resultType="member">
+		SELECT
+			USERID,
+			PASSWORD,
+			EMAIL,
+			ADDRESS,
+			TO_CHAR(BIRTHDATE, 'YYYYMMDD') BIRTHDATE,
+			NAME,
+			PHONE,
+			APILOGIN,
+			AGREE,
+			ADMIN,
+			ADDRESS2
+		FROM MEMBER
+	</select>
+	
+	<select id="getMember" resultType="member">
+		SELECT
+			USERID,
+			PASSWORD,
+			EMAIL,
+			ADDRESS,
+			TO_CHAR(BIRTHDATE, 'YYYYMMDD') BIRTHDATE,
+			NAME,
+			PHONE,
+			APILOGIN,
+			AGREE,
+			ADMIN,
+			ADDRESS2
+		FROM MEMBER WHERE USERID = #{userid} AND PASSWORD = #{password}
+	</select>
+	
+	<select id="getUserByNameEmail" resultType="member">
+		SELECT * FROM MEMBER WHERE NAME = #{name} AND EMAIL = #{email}
+	</select>
+	
+	<select id="getUserByUseridEmail" resultType="member">
+		SELECT * FROM MEMBER WHERE USERID = #{userid} AND EMAIL = #{email}
+	</select>
+	
+	<insert id="addMember">
+		INSERT INTO MEMBER
+		VALUES(
+			#{userid}, 
+			#{password}, 
+			#{email}, 
+			#{address},
+			TO_DATE(#{birthdate}, 'YYYY-MM-DD'), 
+			#{name}, 
+			#{phone}, 
+			#{apiLogin}, 
+			#{agree}, 
+			#{admin},
+			#{address2}
+		)
+	</insert>
+	
+	<update id="modifyMember">
+		UPDATE MEMBER SET 
+			PASSWORD = #{password}, 
+			EMAIL = #{email}, 
+			ADDRESS = #{address},
+			ADDRESS2 = #{address2},
+			TO_DATE(#{birthdate}, 'YYYY-MM-DD'), 
+			NAME = #{name}, 
+			PHONE = #{phone}, 
+			AGREE = #{agree}
+		WHERE USERID = #{userid}
+	</update>
+	
+	<update id="modifyMemberPassword">
+		UPDATE MEMBER SET
+			PASSWORD = #{password}
+		WHERE USERID = #{userid}
+	</update>
+	
+	<select id="getCountMember" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE USERID = #{userid}
+	</select>
+	
+	<select id="getCountMemberByEmail" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email}
+	</select>
+	
+	<delete id="removeMember">
+		DELETE MEMBER WHERE USERID = #{userid}
+	</delete>
+	
+	<select id="getKakaoMember" resultType="kakaoMember">
+		SELECT
+			USERID,
+			EMAIL,
+			ADDRESS,
+			TO_CHAR(BIRTHDATE, 'YYYYMMDD') BIRTHDATE,
+			NAME,
+			PHONE,
+			APILOGIN,
+			AGREE,
+			ADDRESS2
+		FROM KAKAOMEMBER WHERE USERID = #{userid}
+	</select>
+	
+	<insert id="addKakaoMember">
+		INSERT INTO KAKAOMEMBER
+		VALUES(
+			#{userid}, 
+			#{email}, 
+			#{address},
+			TO_DATE(#{birthdate}, 'YYYY-MM-DD'), 
+			#{name}, 
+			#{phone}, 
+			#{apiLogin}, 
+			#{agree}, 
+			#{address2}
+		)
+	</insert>
+	
+	<update id="modifyKakaoMember">
+		UPDATE KAKAOMEMBER SET 
+			ADDRESS = #{address},
+			ADDRESS2 = #{address2},
+			BIRTHDATE = TO_DATE(#{birthdate}, 'YYYY-MM-DD'), 
+			PHONE = #{phone}, 
+			AGREE = #{agree}
+		WHERE USERID = #{userid}
+	</update>
+	
+	<select id="getKakaoMemberList" resultType="kakaoMember">
+		SELECT
+			USERID,
+			EMAIL,
+			ADDRESS,
+			TO_CHAR(BIRTHDATE, 'YYYYMMDD') BIRTHDATE,
+			NAME,
+			PHONE,
+			APILOGIN,
+			AGREE,
+			ADDRESS2
+		FROM KAKAOMEMBER
+	</select>
+</mapper>

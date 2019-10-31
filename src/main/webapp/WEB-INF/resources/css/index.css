@@ -1,0 +1,74 @@
+
+.carousel-item img{
+    max-width: 1000px;
+}
+.index-carousel{
+    background: black; 
+}
+.index-movie{
+    max-width: 1200px;
+}
+/* 현재 사영작 / 개봉 예정작의 버튼 css */
+.index-movie-btn-group{
+    background: url('../images/bg_h3_line.jpg') repeat-x 50%;
+}
+.index-movie-btn-group > div { 
+}
+
+/* 영화 카드 css */
+
+.card {
+    width:211px
+}
+.card-group {
+    max-width: 978px;
+}
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.h-75 {
+	height: 300px !important;
+    overflow: hidden;
+}
+
+/* 예고편 css */
+.index-trailer{
+    background-image: url(../images/11.png);
+}
+
+.index-trailer-btn > div{
+    width: 200px; 
+    height: 50px; 
+    background-color: red;
+    border-radius: 5px;
+}
+.index-trailer-btn > div > p {
+    font-size: 1.6rem; 
+    color:white; 
+    text-align: center; 
+}
+.index-trailer-youtube {
+    max-width: 1200px; 
+}
+
+/* 이벤트 버튼 css */
+.index-event-btn{
+    padding-top: 50px;
+    background: url('../images/bg_h3_line.jpg') repeat-x;
+    background-position-y: 77%;
+    max-width: 1200px;
+}
+
+.index-event-btn > div > div{
+    width: 200px; 
+    height: 50px; 
+    background-color: red;
+    border-radius: 5px;
+}
+.index-event-btn > div > div > p{
+    font-size: 1.6rem; 
+    color:white; 
+    text-align: center; 
+}

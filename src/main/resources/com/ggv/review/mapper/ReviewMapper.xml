@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ggv.review.mapper.ReviewMapper">
+
+	<resultMap type="movie" id="movie">
+		<result column="M_TITLE" property="M_TITLE"/>
+	</resultMap>
+	
+	<select id="getReviewList" resultType="myreview">
+		SELECT MOVIE_PK, REVIEW_PK, RV_TITLE, RV_CONTENT, 
+			TO_CHAR(RV_DATE,'YYYY/MM/DD') RV_DATE, USERID, SCORE
+		FROM REVIEW
+		WHERE MOVIE_PK = #{movie_pk}
+		ORDER BY REVIEW_PK
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO REVIEW(
+			REVIEW_PK, 
+			RV_TITLE, 
+			RV_CONTENT, 
+			SCORE, 
+			RV_DATE, 
+			USERID,
+			MOVIE_PK)
+		VALUES(
+			SEQ_REVIEW.NEXTVAL, 
+			#{rv_title}, 
+			#{rv_content}, 
+			#{score},
+			SYSDATE,
+			#{userid},
+			#{movie_pk})
+	</insert>
+	
+ 	<insert id="insertSelectKey">
+		<selectKey keyProperty="review_pk" order="BEFORE" resultType="int">
+			select SEQ_REVIEW.nextval from dual
+		</selectKey>
+			insert into review(movie_pk, review_pk, rv_title, rv_content, score, userid, rv_date)
+			values (#{movie_pk}, #{review_pk}, #{rv_title}, #{rv_content}, #{score}, #{userid}, SYSDATE)
+	</insert>
+	
+ 	<delete id="delete">
+		DELETE FROM REVIEW WHERE REVIEW_PK = #{review_pk}
+	</delete>
+	
+	<delete id="removeReview">
+		DELETE FROM REVIEW WHERE USERID = #{userid}
+	</delete>
+
+	<select id="getReview" resultType="myreview">
+		SELECT MOVIE_PK, REVIEW_PK, RV_TITLE, RV_CONTENT, 
+			TO_CHAR(RV_DATE,'YYYY/MM/DD') RV_DATE, USERID, SCORE
+		FROM REVIEW
+		WHERE REVIEW_PK = #{review_pk} 
+	</select>
+	
+	<update id="update">
+		UPDATE REVIEW
+		SET RV_DATE = SYSDATE,
+			RV_CONTENT = #{rv_content},
+			SCORE = #{score},
+			RV_TITLE = #{rv_title}
+		WHERE REVIEW_PK = #{review_pk}
+	</update>
+	
+	<select id="getCountReview" resultType="int">
+		SELECT COUNT(*) FROM REVIEW WHERE MOVIE_PK = #{movie_pk}
+	</select>
+	
+	<select id="getListMyReview" resultType="myreview">
+		SELECT MOVIE_PK, REVIEW_PK, RV_TITLE, RV_CONTENT, TO_CHAR(RV_DATE,'YYYY/MM/DD') RV_DATE, USERID, SCORE
+		FROM REVIEW
+		WHERE MOVIE_PK = #{movie_pk}
+ 		AND USERID = #{userid}
+	</select>
+		
+	<select id="getListWithPaging" resultType="myreview">
+		<![CDATA[
+			SELECT REVIEW_PK, MOVIE_PK, RV_TITLE, USERID, RV_DATE, SCORE    
+			FROM (
+			    SELECT /*+INDEX REVIEW ON IDX_REVIEW)*/
+			        ROWNUM RN, REVIEW_PK, MOVIE_PK, RV_TITLE, USERID, TO_CHAR(RV_DATE,'YYYY/MM/DD') RV_DATE, SCORE
+			    FROM REVIEW
+			    WHERE MOVIE_PK = #{movie_pk}
+			        AND REVIEW_PK > 0
+			        AND ROWNUM <= #{cri.pageNum}*#{cri.amount}
+			    )
+			WHERE RN > (#{cri.pageNum}-1)*#{cri.amount}
+		]]>
+	</select>
+	
+	<select id="getCountByMovie_pk" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM REVIEW WHERE MOVIE_PK = #{movie_pk}
+		]]>
+	</select>
+	
+	<!-- 리뷰 총 평점(2019.10.24) -->
+	<select id="getScoreByMovie_pk" resultType="double">
+		SELECT NVL(ROUND(AVG(SCORE),2),0) AS SCORE FROM REVIEW WHERE MOVIE_PK = #{movie_pk}
+	</select>
+	
+	<select id="getMyReviewList" parameterType="myreview" resultType="myMap" >
+		SELECT MOVIE_PK, REVIEW_PK, M_TITLE, RV_TITLE, TO_CHAR(RV_DATE,'YYYY/MM/DD') RV_DATE, SCORE
+		FROM REVIEW
+		JOIN MOVIE USING(MOVIE_PK)
+		WHERE USERID = #{userid}
+		ORDER BY RV_DATE DESC
+	</select>
+	
+	<select id="getMyReview" resultType="myreview">
+		SELECT REVIEW_PK, M_TITLE, RV_TITLE, RV_CONTENT, TO_CHAR(RV_DATE,'YYYY/MM/DD') RV_DATE, SCORE, USERID
+		FROM REVIEW
+		JOIN MOVIE USING(MOVIE_PK)
+		WHERE REVIEW_PK = #{review_pk}
+	</select>
+	
+	<select id="getMyReviewMainList" resultType="myreview">
+		<![CDATA[
+			SELECT MOVIE_PK, REVIEW_PK, USERID,
+			    M_TITLE, RV_TITLE, SCORE
+			FROM REVIEW R
+			JOIN MOVIE M USING(MOVIE_PK)
+			WHERE ROWNUM <= 4 
+			AND USERID = #{userid}
+			ORDER BY REVIEW_PK
+		]]>
+	</select>
+</mapper>

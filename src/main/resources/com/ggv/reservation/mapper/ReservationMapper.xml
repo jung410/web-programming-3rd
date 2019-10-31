@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ggv.reservation.mapper.ReservationMapper">
+<!--<resultMap type="movie" id="movie">
+		<result column="movie_pk" property="movie_pk"/>
+		<result column="m_title" property="m_title"/>
+	</resultMap> -->
+	<select id="movieTitle" resultType="ticketing">
+		SELECT DISTINCT M_TITLE, movie_pk,m.mainpost_img
+		FROM SCREENING S
+		JOIN MOVIE M 
+		ON S.MOVIE_PK_NO = M.MOVIE_PK
+		where s.movie_pk_no = #{movie_pk}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	
+	
+	<select id="movieTitleList" resultType="ticketing">
+		SELECT DISTINCT M_TITLE, movie_pk,m.mainpost_img
+		FROM SCREENING S
+		JOIN MOVIE M 
+		ON S.MOVIE_PK_NO = M.MOVIE_PK
+		
+	</select>
+	<select id="movieTitleListbyLocation" resultType="ticketing">
+		SELECT DISTINCT M_TITLE , movie_pk
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+        JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE   T.location = #{location}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="movieTitleListbyT_address" resultType="ticketing">
+		SELECT DISTINCT M_TITLE , movie_pk
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+        JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE   T.t_address = #{t_address}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="movieTitleListbyScr_date" resultType="ticketing">
+		SELECT DISTINCT m.M_TITLE, movie_pk
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE s.scr_date = #{scr_date}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="movieTitleListbyAll" resultType="ticketing">
+		SELECT DISTINCT m.M_TITLE, movie_pk
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE s.scr_date = #{scr_date} 
+		AND T.location = #{location}
+		AND T.t_address = #{t_address}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="theaterList" resultType="ticketing">
+		SELECT DISTINCT
+	    T.LOCATION
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		
+	</select>
+	<select id="theaterListbyMovie_pk" resultType="ticketing">
+		SELECT DISTINCT
+	    T.LOCATION, m.mainpost_img
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE S.MOVIE_PK_NO = #{movie_pk}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="theaterListbyLocation" resultType="ticketing">
+		SELECT DISTINCT
+	    T.T_ADDRESS,T.THEATER_PK
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE T.LOCATION = #{location}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="theaterListbyMovie_pkLocation" resultType="ticketing">
+		SELECT DISTINCT
+	    T.T_ADDRESS,T.THEATER_PK
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE S.MOVIE_PK_NO = #{movie_pk}
+		AND T.LOCATION = #{location}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="theaterListbyScr_date" resultType="ticketing">
+		SELECT DISTINCT
+	    T.LOCATION, T.T_ADDRESS,T.THEATER_PK
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE s.scr_date = #{scr_date}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi') 
+	</select>
+	<select id="theaterListbyAll" resultType="ticketing">
+		SELECT DISTINCT
+	    T.LOCATION, T.T_ADDRESS,T.THEATER_PK
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE s.scr_date = #{scr_date} 
+		AND S.MOVIE_PK_NO = #{movie_pk}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+
+	
+	<select id="dateList" resultType="ticketing">
+		SELECT DISTINCT
+		TO_CHAR(s.SCR_DATE, 'YYYY/MM/DD') scr_date
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+	</select>
+	<select id="dateListbyMovie_pk" resultType="ticketing">
+		SELECT DISTINCT
+		TO_CHAR(s.SCR_DATE, 'YYYY/MM/DD') scr_date
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE S.MOVIE_PK_NO = #{movie_pk}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="dateListbyLocation" resultType="ticketing">
+		SELECT DISTINCT
+		TO_CHAR(s.SCR_DATE, 'YYYY/MM/DD') scr_date
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE T.location = #{location}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+		
+	</select>
+	<select id="dateListbyT_address" resultType="ticketing">
+		SELECT DISTINCT
+		TO_CHAR(s.SCR_DATE, 'YYYY/MM/DD') scr_date
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE T.t_address = #{t_address}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="dateListbyAll" resultType="ticketing">
+		SELECT DISTINCT
+		TO_CHAR(s.SCR_DATE, 'YYYY-MM-DD') scr_date
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE T.location = #{location}
+		AND T.t_address = #{t_address}
+		AND S.MOVIE_PK_NO = #{movie_pk}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="timeList" resultType="ticketing">
+		SELECT   AUD_NAME,
+		TO_CHAR(s.SCR_TIME, 'HH24:mi') scr_time
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN AUDITORIUM A ON S.AUD_PK_NO = A.AUD_PK
+		JOIN THEATER T ON S.THEATER_PK_NO = T.THEATER_PK
+		WHERE M.MOVIE_PK = #{movie_pk}
+		AND  T.location = #{location}
+		AND T.t_address = #{t_address}
+		AND s.scr_date = to_date(#{scr_date},'YYYY-MM-DD')
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi') 
+		
+	</select>
+	<select id="ticketList"  resultType="ticketing">
+		SELECT s.scr_pk
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN THEATER T ON t.theater_pk = s.theater_pk_no
+		JOIN auditorium A ON a.aud_pk = s.aud_pk_no
+		where AUD_NAME = #{aud_name}
+		and TO_CHAR(s.SCR_TIME, 'HH24:mi') = #{scr_time}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	<select id="ticketList2"  resultType="ticketing">
+		SELECT s.scr_pk
+		FROM SCREENING S
+		JOIN MOVIE M ON S.MOVIE_PK_NO = M.MOVIE_PK
+		JOIN THEATER T ON t.theater_pk = s.theater_pk_no
+		JOIN auditorium A ON a.aud_pk = s.aud_pk_no
+		where M.MOVIE_PK = #{movie_pk}
+		AND  T.location = #{location}
+		AND T.t_address = #{t_address}
+		AND s.scr_date = #{scr_date}
+		and AUD_name = #{aud_name}
+		and TO_CHAR(s.SCR_TIME, 'HH24:mi') = #{scr_time}
+		and to_char(s.scr_time, 'YYYY-MM-DD hh24:mi') > TO_CHAR(sysdate, 'YYYY-MM-DD hh24:mi')
+	</select>
+	
+	<insert id="reservationInsert">
+	<selectKey keyProperty="reservation_pk" order="BEFORE" resultType="int">
+		select RESERVATION_SEQ.NEXTVAL from dual
+	</selectKey>
+		insert into reservation(reservation_pk,userid,scr_pk_no,resv_num)
+		values(
+			#{reservation_pk},
+			#{userid},
+			#{scr_pk_no},
+			#{resv_num}
+		)
+	</insert>
+	
+	<insert id="reservationInsertKakao">
+	<selectKey keyProperty="reservation_pk" order="BEFORE" resultType="int">
+		select RESERVATION_SEQ.NEXTVAL from dual
+	</selectKey>
+		insert into reservation(reservation_pk,kakaouserid,scr_pk_no,resv_num)
+		values(
+			#{reservation_pk},
+			#{kakaouserid},
+			#{scr_pk_no},
+			#{resv_num}
+		)
+	</insert>
+	
+	<insert id="reservedseatInsert">
+	<selectKey keyProperty="reservedseat_pk" order="BEFORE" resultType="int">
+		select RESERVEDSEAT_SEQ.NEXTVAL from dual
+	</selectKey>
+		insert into reservedseat(reservedseat_pk,seat_pk_no,scr_pk_no,reservation_pk_no)
+		values(
+			#{reservedseat_pk},
+			#{seat_pk_no},
+			#{scr_pk_no},
+			#{reservation_pk_no}
+		)
+	</insert>
+	
+	<select id="reservationList" resultType="reservation">
+		select * from reservation
+	</select>
+	<select id="reservedseatList" resultType="reservedseat">
+		select * from reservedseat
+	</select>
+	<select id="reservedseatListforPk" resultType="seat">
+		        
+		select seat.seat_name,seat.seat_num
+		from reservedseat res
+		join seat on res.seat_pk_no = seat.seat_pk
+		where reservation_pk_no = #{reservation_pk_no}
+		
+	</select>
+	<select id="reservedseatListforSeatScr" resultType="reservedseat">
+		select seat_pk_no, scr_pk_no from reservedseat
+	</select>
+	
+	<update id="paymentUpdate">
+		UPDATE RESERVATION SET
+		PAYMENT = 1
+		WHERE RESERVATION_PK = #{reservation_pk}
+	</update>
+	
+	<delete id="reservationDelete">
+		DELETE from reservation where reservation_pk = #{reservation_pk}
+	</delete>
+	<delete id="reservedseatDelete">
+		DELETE from reservedseat where reservation_pk_no = #{reservation_pk_no}
+	</delete>
+	
+	<delete id="removeResvSeat">
+		DELETE FROM RESERVEDSEAT 
+		WHERE RESERVATION_PK_NO = (SELECT RESERVATION_PK FROM RESERVATION WHERE USERID = #{userid})
+	</delete>
+	
+	<delete id="removeResv">
+		DELETE FROM RESERVATION
+		WHERE USERID = #{userid}
+	</delete>
+	
+	<delete id="removeResvSeatByKakao">
+		DELETE FROM RESERVEDSEAT 
+		WHERE RESERVATION_PK_NO = (SELECT RESERVATION_PK FROM RESERVATION WHERE KAKAOUSERID = #{kakaouserid})
+	</delete>
+	
+	<delete id="removeResvByKakao">
+		DELETE FROM RESERVATION
+		WHERE KAKAOUSERID = #{kakaouserid}
+	</delete>
+	
+	<select id="getMyreservation" resultType="myresv">
+		SELECT 
+			MOVIE_PK,
+		    RESERVATION_PK,
+		    RESV_NUM,
+		    M_TITLE,
+		    MAINPOST_IMG,
+		    WATCHGRADE,
+		    RUNNINGTIME,
+		    TO_CHAR(RESERVE_DATE, 'YYYY"년 "MM"월 "DD"일"') AS RESVDATE, 
+		    TO_CHAR(SCR_DATE, 'YYYY"년 "MM"월 "DD"일"') AS SCRDATE, 
+		    TO_CHAR(SCR_TIME, 'HH24:MI') AS SCRTIME,
+		    TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI') AS SRC_ENDTIME, 
+		    AUD_NAME,
+		    T_ADDRESS
+		FROM RESERVATION RESV
+		JOIN SCREENING SCR ON RESV.SCR_PK_NO = SCR.SCR_PK 
+		JOIN MOVIE ON SCR.MOVIE_PK_NO = MOVIE.MOVIE_PK
+		JOIN AUDITORIUM AUD ON SCR.AUD_PK_NO = AUD.AUD_PK
+		JOIN THEATER THE ON THE.THEATER_PK = SCR.THEATER_PK_NO
+		WHERE USERID = #{userid}
+		AND PAYMENT = 1
+		AND IS_PAID = 1
+		AND TO_DATE(TO_CHAR(SCR_DATE, 'YYYY/MM/DD') || ' ' || TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI'), 'YYYY/MM/DD HH24:MI') - SYSDATE > 0
+		ORDER BY SCR_DATE, SCR_TIME ASC
+	</select>
+	
+	<select id="getMyreservationByKakao" resultType="myresv">
+		SELECT 
+			MOVIE_PK,
+		    RESERVATION_PK,
+		    RESV_NUM,
+		    M_TITLE,
+		    MAINPOST_IMG,
+		    WATCHGRADE,
+		    RUNNINGTIME,
+		    TO_CHAR(RESERVE_DATE, 'YYYY"년 "MM"월 "DD"일"') AS RESVDATE, 
+		    TO_CHAR(SCR_DATE, 'YYYY"년 "MM"월 "DD"일"') AS SCRDATE, 
+		    TO_CHAR(SCR_TIME, 'HH24:MI') AS SCRTIME,
+		    TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI') AS SRC_ENDTIME, 
+		    AUD_NAME,
+		    T_ADDRESS
+		FROM RESERVATION RESV
+		JOIN SCREENING SCR ON RESV.SCR_PK_NO = SCR.SCR_PK 
+		JOIN MOVIE ON SCR.MOVIE_PK_NO = MOVIE.MOVIE_PK
+		JOIN AUDITORIUM AUD ON SCR.AUD_PK_NO = AUD.AUD_PK
+		JOIN THEATER THE ON THE.THEATER_PK = SCR.THEATER_PK_NO
+		WHERE KAKAOUSERID = #{kakaouserid}
+		AND PAYMENT = 1
+		AND IS_PAID = 1
+		AND TO_DATE(TO_CHAR(SCR_DATE, 'YYYY/MM/DD') || ' ' || TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI'), 'YYYY/MM/DD HH24:MI') - SYSDATE > 0
+		ORDER BY SCR_DATE, SCR_TIME ASC
+	</select>
+	
+	<select id="getWachedMovie" resultType="myresv">
+		<![CDATA[
+		SELECT 
+			MOVIE_PK,
+		    RESERVATION_PK,
+		    RESV_NUM,
+		    M_TITLE,
+		    MAINPOST_IMG,
+		    WATCHGRADE,
+		    RUNNINGTIME,
+		    TO_CHAR(RESERVE_DATE, 'YYYY"년 "MM"월 "DD"일"') AS RESVDATE, 
+		    TO_CHAR(SCR_DATE, 'YYYY"년 "MM"월 "DD"일"') AS SCRDATE, 
+		    TO_CHAR(SCR_TIME, 'HH24:MI') AS SCRTIME,
+		    TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI') AS SRC_ENDTIME, 
+		    AUD_NAME,
+		    T_ADDRESS
+		FROM RESERVATION RESV
+		JOIN SCREENING SCR ON RESV.SCR_PK_NO = SCR.SCR_PK 
+		JOIN MOVIE ON SCR.MOVIE_PK_NO = MOVIE.MOVIE_PK
+		JOIN AUDITORIUM AUD ON SCR.AUD_PK_NO = AUD.AUD_PK
+		JOIN THEATER THE ON THE.THEATER_PK = SCR.THEATER_PK_NO
+		WHERE USERID = #{userid}
+		AND PAYMENT = 1
+		AND IS_PAID = 1
+		AND TO_DATE(TO_CHAR(SCR_DATE, 'YYYY/MM/DD') || ' ' || TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI'), 'YYYY/MM/DD HH24:MI') - SYSDATE < 0
+		ORDER BY SCR_DATE, SCR_TIME ASC
+		]]>
+	</select>
+	
+	<select id="getWachedMovieByKakao" resultType="myresv">
+		<![CDATA[
+		SELECT 
+			MOVIE_PK,
+		    RESERVATION_PK,
+		    RESV_NUM,
+		    M_TITLE,
+		    MAINPOST_IMG,
+		    WATCHGRADE,
+		    RUNNINGTIME,
+		    TO_CHAR(RESERVE_DATE, 'YYYY"년 "MM"월 "DD"일"') AS RESVDATE, 
+		    TO_CHAR(SCR_DATE, 'YYYY"년 "MM"월 "DD"일"') AS SCRDATE, 
+		    TO_CHAR(SCR_TIME, 'HH24:MI') AS SCRTIME,
+		    TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI') AS SRC_ENDTIME, 
+		    AUD_NAME,
+		    T_ADDRESS
+		FROM RESERVATION RESV
+		JOIN SCREENING SCR ON RESV.SCR_PK_NO = SCR.SCR_PK 
+		JOIN MOVIE ON SCR.MOVIE_PK_NO = MOVIE.MOVIE_PK
+		JOIN AUDITORIUM AUD ON SCR.AUD_PK_NO = AUD.AUD_PK
+		JOIN THEATER THE ON THE.THEATER_PK = SCR.THEATER_PK_NO
+		WHERE KAKAOUSERID = #{kakaouserid}
+		AND PAYMENT = 1
+		AND IS_PAID = 1
+		AND TO_DATE(TO_CHAR(SCR_DATE, 'YYYY/MM/DD') || ' ' || TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI'), 'YYYY/MM/DD HH24:MI') - SYSDATE < 0
+		ORDER BY SCR_DATE, SCR_TIME ASC
+		]]>
+	</select>
+	
+	<update id="cancleResv">
+		UPDATE RESERVATION SET IS_PAID = 0, CANCLE_DATE = SYSDATE WHERE RESERVATION_PK = #{reservation_pk}
+	</update>
+	
+	<select id="getCancled" resultType="myresv">
+		<![CDATA[
+		SELECT 
+			MOVIE_PK,
+		    RESERVATION_PK,
+		    RESV_NUM,
+		    M_TITLE,
+		    MAINPOST_IMG,
+		    WATCHGRADE,
+		    RUNNINGTIME,
+		    TO_CHAR(RESERVE_DATE, 'YYYY"년 "MM"월 "DD"일"') AS RESVDATE, 
+		    TO_CHAR(SCR_DATE, 'YYYY"년 "MM"월 "DD"일"') AS SCRDATE, 
+		    TO_CHAR(SCR_TIME, 'HH24:MI') AS SCRTIME,
+		    TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI') AS SRC_ENDTIME, 
+		    AUD_NAME,
+		    T_ADDRESS,
+		    TO_CHAR(CANCLE_DATE, 'MM"월 "DD"일 <br>"HH24"시"MI"분"') AS CANCLE_DATE
+		FROM RESERVATION RESV
+		JOIN SCREENING SCR ON RESV.SCR_PK_NO = SCR.SCR_PK 
+		JOIN MOVIE ON SCR.MOVIE_PK_NO = MOVIE.MOVIE_PK
+		JOIN AUDITORIUM AUD ON SCR.AUD_PK_NO = AUD.AUD_PK
+		JOIN THEATER THE ON THE.THEATER_PK = SCR.THEATER_PK_NO
+		WHERE USERID = #{userid}
+		AND PAYMENT = 1
+		AND IS_PAID = 0
+		AND SYSDATE - CANCLE_DATE < 7
+		ORDER BY SCR_DATE, SCR_TIME ASC
+		]]>
+	</select>
+	
+	<select id="getCancledByKakao" resultType="myresv">
+		<![CDATA[
+		SELECT 
+			MOVIE_PK,
+		    RESERVATION_PK,
+		    RESV_NUM,
+		    M_TITLE,
+		    MAINPOST_IMG,
+		    WATCHGRADE,
+		    RUNNINGTIME,
+		    TO_CHAR(RESERVE_DATE, 'YYYY"년 "MM"월 "DD"일"') AS RESVDATE, 
+		    TO_CHAR(SCR_DATE, 'YYYY"년 "MM"월 "DD"일"') AS SCRDATE, 
+		    TO_CHAR(SCR_TIME, 'HH24:MI') AS SCRTIME,
+		    TO_CHAR(SCR_TIME + SUBSTR(RUNNINGTIME, 0, INSTR(RUNNINGTIME, '분')-1)/(24*60), 'HH24:MI') AS SRC_ENDTIME, 
+		    AUD_NAME,
+		    T_ADDRESS,
+		    TO_CHAR(CANCLE_DATE, 'MM"월 "DD"일 <br>"HH24"시"MI"분"') AS CANCLE_DATE
+		FROM RESERVATION RESV
+		JOIN SCREENING SCR ON RESV.SCR_PK_NO = SCR.SCR_PK 
+		JOIN MOVIE ON SCR.MOVIE_PK_NO = MOVIE.MOVIE_PK
+		JOIN AUDITORIUM AUD ON SCR.AUD_PK_NO = AUD.AUD_PK
+		JOIN THEATER THE ON THE.THEATER_PK = SCR.THEATER_PK_NO
+		WHERE KAKAOUSERID = #{kakaouserid}
+		AND PAYMENT = 1
+		AND IS_PAID = 0
+		AND SYSDATE - CANCLE_DATE < 7
+		ORDER BY SCR_DATE, SCR_TIME ASC
+		]]>
+	</select>
+	
+	<select id="getMyreservationSeat" resultType="myresvseat">
+		SELECT 
+		    RESV.RESERVATION_PK,
+		    SEAT.SEAT_NAME,
+		    SEAT.SEAT_NUM
+		FROM RESERVATION RESV
+		JOIN RESERVEDSEAT RESVSEAT ON RESVSEAT.RESERVATION_PK_NO = RESV.RESERVATION_PK
+		JOIN SEAT ON SEAT.SEAT_PK = RESVSEAT.SEAT_PK_NO
+		WHERE RESERVATION_PK = #{reservation_pk}
+	</select>
+	<select id="getPayment" resultType="reservation">
+		select reservation_pk from reservation where payment = 0
+	</select>
+	<select id="getScrData" resultType="ticketing">
+		SELECT DISTINCT
+			scr_pk,
+		    M_TITLE,
+		    MAINPOST_IMG,
+		    TO_CHAR(SCR_DATE ,'YYYY-MM-DD') AS SCR_DATE, 
+		    TO_CHAR(SCR_TIME, 'HH24:MI') AS SCR_TIME,
+		    AUD_NAME,
+            location,
+		    T_ADDRESS
+		
+		FROM SCREENING SCR
+		JOIN MOVIE ON SCR.MOVIE_PK_NO = MOVIE.MOVIE_PK
+		JOIN AUDITORIUM AUD ON SCR.AUD_PK_NO = AUD.AUD_PK
+		JOIN THEATER THE ON THE.THEATER_PK = SCR.THEATER_PK_NO
+		WHERE scr_pk = #{scr_pk}
+	</select>
+</mapper>

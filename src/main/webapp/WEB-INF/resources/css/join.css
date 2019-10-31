@@ -1,0 +1,12 @@
+.custom-feedback {
+	font-size: 70%;
+	color: #dc3545;
+}
+
+::placeholder {
+	font-size: 12px;
+}
+
+label > span:first-of-type {
+	color: red;
+}

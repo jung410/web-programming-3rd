@@ -1,0 +1,154 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+body {
+  overflow-x: hidden;
+}
+
+#wrapper{
+  max-width: 1200px;
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  margin-left: -15rem;
+  -webkit-transition: margin .25s ease-out;
+  -moz-transition: margin .25s ease-out;
+  -o-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.5rem;
+}
+
+#sidebar-wrapper .list-group {
+  width: 15rem;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: 0;
+}
+#menu-toggle{
+  display: block;
+}
+
+.container-fluid{
+  max-width: 730px;
+}
+
+.table{
+  min-width: 600px;
+}
+
+.modify-form {
+  max-width: 100%;
+}
+
+.m-poster {
+  vertical-align: baseline;
+}
+
+/* 2019.10.30 박소윤 내용추가(테이블 영화명 길이 관리 위해 사용) */
+.m_title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* --------------------------------------------------------
+  my page의 리뷰 축소 목록을 위한 css 설정
+*/
+.my-review-container table{
+  table-layout: fixed;
+  white-space: nowrap;
+  text-align: center;
+}
+.my-review-container table thead tr th:nth-child(1){
+  width: 25%;
+}
+.my-review-container table thead tr th:nth-child(2){
+  width: 60%;
+}
+.my-review-container table thead tr th:nth-child(3){
+  width: 15%;
+}
+.my-review-container tbody > tr > td {
+  overflow: hidden;
+}
+/* -------------------------------------------------------- */
+/* --------------------------------------------------------
+  나의 취소 내역의 table 반응형을 위해 min-width 추가.
+*/
+.my-cancled-list table{
+  text-align: center;
+  min-width: 540px;
+}
+/* -------------------------------------------------------- */
+/* --------------------------------------------------------
+  나의 취소 내역의 table 반응형을 위해 min-width 추가.
+*/
+.review-table{
+  table-layout: fixed;
+  white-space: nowrap;
+}
+.review-table td{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.review-table thead tr th:nth-child(1){
+  width: 170px;
+}
+.review-table thead tr th:nth-child(3){
+  width: 110px;
+}
+.review-table thead tr th:nth-child(4){
+  width: 60px;
+}
+/* -------------------------------------------------------- */
+/* --------------------------------------------------------
+  관리자 페이지의 user 목록 css 변경
+*/
+.users-table thead tr th:nth-child(1){
+  width: 120px;
+}
+.users-table thead tr th:nth-child(2){
+  width: 140px;
+}
+.users-table thead tr th:nth-child(3){
+  width: 120px;
+}
+.users-table thead tr th:nth-child(4){
+  width: 150px;
+}
+
+.users-table thead tr th:nth-child(6){
+  width: 75px;
+}
+
+.cancleBtn{margin-left: 57px;}
+/* -------------------------------------------------------- */
+@media (min-width: 1024px) {
+  #menu-toggle{
+    display: none;
+  }
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+}

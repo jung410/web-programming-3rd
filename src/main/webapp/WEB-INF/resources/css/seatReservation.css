@@ -1,0 +1,86 @@
+.top-col{
+    background-color: #302f2a;
+  }
+  .body-col{
+    background-color: #4f4f4f;
+  }
+  .foot-col{
+    background-color: #4f4f4f;
+    min-height:170px;
+  }
+  .themed-grid-col {
+    padding-top: 15px;
+    border: 1px solid #242320;
+  }
+
+  .c1, .c2{
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+  .c2 div a{
+    background-color: #373633;
+    color: white;
+    border:none;
+  }
+  .c1 div a{
+    background-color: #373633;
+    color: white;
+    border:none;
+  }
+  .list-color1 a{
+    background-color: #373633;
+    color: white;
+  }
+div .date-list{
+  border: none;
+  background-color: #4f4f4f;
+}
+.list-box{
+  padding : 0.4rem 0.55rem;
+}
+.screen-size{
+  width: 524px;
+  margin: 0 auto;
+  background: #242320;
+}
+@media (max-width: 768px) {
+  .screen-size{
+    width:500px;
+  }
+  .button-h{
+    height: 110%;
+  }
+}
+@media (max-width: 320px) {
+  .list-box{
+    padding: 0.3rem 0.4rem;
+  }
+  .screen-size{
+    width:480px;
+  }
+}
+
+.s-style{
+  border-radius: 0;
+  border: 3px solid black;
+  border-collapse:collapse;
+  margin: 1px;
+  padding: .3rem .75rem;
+}
+
+.nextBtn{
+	height:75%;
+}
+.cancleBtn{
+	height:25%;
+}
+
+@media (max-width: 425px) {
+
+  .nextBtn{
+	height:50%;
+	}
+	.cancleBtn{
+	height:50%;
+	}
+}

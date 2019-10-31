@@ -1,0 +1,149 @@
+/* movieDetail*/
+.index-movie {
+  max-width: 1200px;
+}
+.index-movie-btn-group {
+  background: url('../images/bg_h3_line.jpg') repeat-x 50%;
+}
+.card-img-top {
+  border-radius: 5px;
+}
+
+/* 리뷰 리스트 */
+#scoreResult {
+	font-size: 27px;
+}
+.scoreBox {
+	font-size: 20px;
+}
+.review_pk {
+	width: 83px;
+}
+.rv_title {
+	width: 365px;
+}
+.score {
+	width: 226px;
+}
+.userid {
+	width: 121px;
+}
+.rv_date {
+	width: 285px;
+}
+.review-table {
+	min-width: 650px;
+}
+
+
+.btn-block+.btn-block {
+    margin-top: 0;
+}
+
+/* .리뷰 쓰기 */
+.card-title {
+  font-size: 14px;
+}
+
+.card-text {
+  font-size: 12px
+}
+
+.scoretext {
+  font-size: 13px;
+}
+
+.align-bottom {
+  font-size: 11px;
+}
+
+
+@media(max-width: 415px) {
+  .card-wrapper>img {
+    width: 45%;
+  }
+}
+
+/* 예고편 */
+.index-event-btn {
+  padding-top: 50px;
+  background: url('../images/bg_h3_line.jpg') repeat-x;
+  background-position-y: 77%;
+  max-width: 1200px;
+}
+
+.index-event-btn>div>div {
+  width: 200px;
+  height: 50px;
+  background-color: red;
+  border-radius: 5px;
+}
+
+.index-event-btn>div>div>p {
+  font-size: 1.6rem;
+  color: white;
+  text-align: center;
+}
+
+/* 스틸컷 */
+.carousel-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-left: 0;
+  margin-right: 15%;
+  margin-left: 15%;
+  list-style: none;
+}
+
+.carousel-thumbnails .carousel-indicators {
+  white-space: nowrap;
+  overflow-x: auto;
+  position: static;
+  left: initial;
+  width: initial;
+  margin-left: initial;
+  margin-right: initial;
+}
+
+.carousel-thumbnails .carousel-indicators>li {
+  width: initial;
+  height: initial;
+  text-indent: initial;
+}
+
+.carousel-indicators img {
+  vertical-align: middle;
+  border-style: none;
+}
+
+.tmp {
+  min-width: 524px;
+}
+
+@media(min-width: 415px) {
+  .poster-group {
+    width: 50%
+  }
+}
+
+@media(min-width: 768px) {
+  .movie-detail-info {
+    width: 50%;
+  }
+}
+
+@media(max-width: 415px) {
+  .modal-body,
+  .modal-body2,
+  .modal-body4 {
+    padding: 0;
+    border: 0px
+  }
+}
